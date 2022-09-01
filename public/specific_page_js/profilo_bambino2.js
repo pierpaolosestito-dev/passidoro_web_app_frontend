@@ -54,6 +54,10 @@ $(document).on('click', '#editButton', function(){
         }
         email_madre = $('#emailMadre').val();
     }
+
+    if($('#emailMadre').val() != "" && $('#emailPadre').val() != ""){
+      swalAlert(1,"Stai modificando entrambe le e-mail. Ricorda che è opportuno modificarle anche nei fogli Excel che contengono informazioni su questo bambino.<br> Oppure dopo aver aggiornato tutti i bambini, sostituisci i fogli Excel scaricando il nuovo dal sistema.")
+    }
     orario_uscita = oldTime;
     if($('#time').val() != oldTime){
         oldTime =$('#time').val();
@@ -130,33 +134,61 @@ $(document).on('click', '#editButton', function(){
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
+
+
         Swal.fire({
           title:'<div style="background-color:#fff">Il bambino rimarrà registrato nel sistema!</div>', 
           icon:'success',
           background:'url("../media_resources/alert_resources/alert_background.jpg")'});
       } else if (result.isDenied) {
+
+        Swal.fire({
+          title:'<div style="background-color:#fff">Inserisci la password.</div>', 
+          icon:'info',
+          input:'password',
+          background:'url("../media_resources/alert_resources/alert_background.jpg")',
+          preConfirm:(password)=>{
+
         Swal.fire({
           title:"Caricamento in corso",
           imageUrl:"../media_resources/loader_resources/cat_loader.gif",
           didOpen: function(){
-            axios({method:"delete",url:'http://127.0.0.1:8000/singolo_bambino/'+IDn,headers:{"Authorization":"Token "+sessionStorage.getItem("key")}})
-          .then(response => {
-            console.log(response)
-            if(response.data == "Bambino eliminato con successo"){
-              swalAlert(1,"Operazione avvenuta con successo");
-              setTimeout(function(){
-                location.reload()
-              },800);
-            }else{
-              swalAlert(0,"L'operazione non è andata a buon fine");
+            axios({
+              method:"post",
+              url:"http://127.0.0.1:8000/verifica_password",
+              data:{"password":password},
+              headers:{"Authorization":"Token " + sessionStorage.getItem("key")}
+          }).then(response=>{
+            if(response.data=="Password verificata"){
+              axios({method:"delete",url:'http://127.0.0.1:8000/singolo_bambino/'+IDn,headers:{"Authorization":"Token "+sessionStorage.getItem("key")}})
+              .then(response => {
+                console.log(response)
+                if(response.data == "Bambino eliminato con successo"){
+                  swalAlert(1,"Operazione avvenuta con successo");
+                  setTimeout(function(){
+                    location.reload()
+                  },800);
+                }
+                swalAlert(0,response.data);
+                return;
+              
+              }).catch(function(err){
+                swalAlertCONN_REF();
+                return;
+              });
               return;
             }
-          
+            swalAlert(0,response.data);
+            return;
           }).catch(function(err){
             swalAlertCONN_REF();
             return;
-          });
-          }});
+          })
+
+
+
+            
+          }})}});
       }
     })
    /* swal({

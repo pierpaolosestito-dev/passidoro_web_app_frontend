@@ -1,7 +1,9 @@
 <script lang="ts">
     import Navbar_Restructured from "../restructured_components/Navbar_Restructured.svelte"
     import {Container,Row,Card,CardBody,CardFooter,CardHeader,Alert,CardTitle,FormText,InputGroup,Input,InputGroupText,Image,Form,} from 'sveltestrap';
-import { loop_guard } from "svelte/internal";
+var today = new Date();
+console.log(today.setMinutes(today.getMinutes()+50));
+console.log(today);
 </script>
 
 <Navbar_Restructured/>
@@ -24,11 +26,11 @@ import { loop_guard } from "svelte/internal";
               <FormText id="togglePassword"><i class="fa-solid fa-eye-slash" id="icon"></i> Clicca qua per vedere la password in chiaro</FormText>
             </Row>
         <Row id="row">
-          <Container id="container-btn"><button id="enter-btn" class="hd-button">ENTRA</button></Container>
+          <button id="enter-btn" class="hd-button">ENTRA <i class="fa fa-sign-in" aria-hidden="true"></i></button>
         </Row>
      
     </CardBody>
-    <CardFooter id="hd-card-footer-3"><Alert color='warning'>Se hai smarrito la password, o non riesci ad entrare nel sistema <a href="recuperapassword">clicca qua</a><i class="fas fa-hand-point-left"></i> </Alert></CardFooter>
+    <CardFooter id="hd-card-footer-3"><Alert color='warning'>Se hai smarrito la password, o non riesci ad entrare nel sistema <a href="recuperapassword">clicca qua <i class="fas fa-hand-point-left"></i></a> </Alert></CardFooter>
 </Card>
 
 <svelte:head>

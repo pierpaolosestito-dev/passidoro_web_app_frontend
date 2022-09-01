@@ -49,7 +49,7 @@ $(document).on('click', '#registra-btn', function(){
     nome_bambino = $('#nome-bambino').val()+"";
     cognome_bambino = $('#cognome-bambino').val()+"";
     //sezione = $('#sezione').val()
-    sezione = "Coccinelle";
+    sezione = $("#sezione-select option:selected").text();
     email_padre = $('#email-padre').val();
     email_madre = $('#email-padre').val();
     data_bambino = $('#data-bambino').val()+"";

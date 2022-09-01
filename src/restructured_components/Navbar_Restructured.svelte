@@ -13,7 +13,7 @@
       <Nav class="ms-auto" navbar>
         <NavItem>
           {#if !isOpen}
-          <button id="logout" class="hd-button">Logout</button>
+          <button id="logout" class="hd-button">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></button>
         {:else}
         <NavLink id="logout">Logout</NavLink>
         {/if}

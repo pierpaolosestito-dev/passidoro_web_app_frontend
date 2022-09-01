@@ -42,3 +42,6 @@ function swalAlertCONN_REF(){
 
 });
 }
+
+//consts.js -> const endpoint_base_url = netlify.toml.endpoint_backend
+//

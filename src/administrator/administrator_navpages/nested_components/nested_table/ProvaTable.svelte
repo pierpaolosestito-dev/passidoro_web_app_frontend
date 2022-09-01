@@ -1,10 +1,12 @@
 <script lang="ts">
   export let sezione;
-  import {Table, Column, Card,CardHeader,CardBody,Input,Image,ListGroup,ListGroupItem,Spinner} from 'sveltestrap';
+  import {Fade,Row,Table, Column, Card,CardHeader,CardBody,Input,Image,ListGroup,ListGroupItem,Spinner} from 'sveltestrap';
   import SezioneStatistica from '../SezioneStatistica.svelte';
   import { onMount,beforeUpdate} from 'svelte';
 	import axios from 'axios';
 import ProfiloBambino from '../../../ProfiloBambino.svelte';
+
+import CardSezioneRestructured from '../../../../restructured_components/CardSezione_Restructured.svelte';
 	let search = undefined;
   let users=[]
   let error404=false;
@@ -15,13 +17,14 @@ import ProfiloBambino from '../../../ProfiloBambino.svelte';
 		}) : users;*/
     $: visibleUsers = search ?
 		users.filter(user => {
-			return user.Nome.match(`${search}.*`) || user.Cognome.match(`${search}.*`)
+			return user.Nome.match(`${search}.*`) || user.Cognome.match(`${search}.*`) || user.Cognome.toLowerCase().match(`${search}.*`) || user.Nome.toLowerCase().match(`${search}.*`) || user.Cognome.toUpperCase().match(`${search}.*`) || user.Nome.toUpperCase().match(`${search}.*`) 
 		}) : users;
     let modificati  = 0;
     let inviati = 0;
     let modificatinoninviati = 0;
     let uscitienoninviati = 0;
     var today = new Date();
+    console.log(today);
     let bol = true;
     
     var time = today.getHours() + ":" + today.getMinutes();
@@ -71,11 +74,7 @@ import ProfiloBambino from '../../../ProfiloBambino.svelte';
 	
   });
 
-  function deleteRow(rowToBeDeleted) {
-   console.log(rowToBeDeleted.name.first);
-	
-    users = users.filter(row => row != rowToBeDeleted);
-}
+let isOpen = false;
 const colors = [
     'primary',
     'secondary',
@@ -96,14 +95,15 @@ const colors = [
 <h3 style="color:red">Si è verificato un errore di rete <i class="fa fa-frown-o" aria-hidden="true"></i></h3>
 {:else}
 {#if users == "Non ci sono bambini"}
-<h3 >Non ci sono bambini <i class="fa fa-frown-o" aria-hidden="true"></i></h3>
+<h3>Non ci sono bambini <i class="fa fa-frown-o" aria-hidden="true"></i></h3>
 {:else}
 <Card id="hd-card">
   <CardHeader id="hd-card-header">
-    <Input type="search" bind:value={search}  placeholder="Nome o cognome" />
+    <!--bind:value={search}-->
+    <Input type="search" bind:value={search} placeholder="Nome o cognome" />
   </CardHeader>
   <CardBody>
-    <Table responsive striped rows={visibleUsers} let:row={user}>
+    <Table id="tabellabambini" name={sezione} responsive striped rows={visibleUsers} let:row={user}>
       <Column  header="Avatar">
         <Image id="defaultAvatar" class="defaultAvatar" src="http://127.0.0.1:8000/testingfile/{user.Avatar}/{sessionStorage.getItem("key")}"/>
       </Column>
@@ -124,18 +124,18 @@ const colors = [
        
         <Column header="Profilo">
           {#if user.Inviato == 0 && user.Orario_uscita.split(":")[0] < today.getHours()}
-            <a href="/profiloBambino2?ID={user.ID}"> <button class="hd-button"><i class="icon-arrow-right"></i></button></a>
+            <a href="/profiloBambino2?ID={user.ID}"> <button class="hd-button"><i class="fa fa-user" aria-hidden="true"></i></button></a>
 
           {:else}
-          <a href="/profiloBambino2?ID={user.ID}"> <button class="hd-button" ><i class="icon-arrow-right"></i></button></a>
+          <a href="/profiloBambino2?ID={user.ID}"> <button class="hd-button" ><i class="fa fa-user" aria-hidden="true"></i></button></a>
           {/if}
         </Column>
         <Column header="Report">
           {#if user.Inviato == 0 && user.Orario_uscita.split(":")[0] < today.getHours()}
-            <a href="/reportform?ID={user.ID}"> <button class="hd-button" ><i class="icon-arrow-right"></i></button></a>
+            <a href="/reportform?ID={user.ID}"> <button class="hd-button" ><i class="fa fa-file" aria-hidden="true"></i></button></a>
 
           {:else}
-          <a href="/reportform?ID={user.ID}"> <button class="hd-button"><i class="icon-arrow-right"></i></button></a>
+          <a href="/reportform?ID={user.ID}"> <button class="hd-button"><i class="fa fa-file" aria-hidden="true"></i></button></a>
           {/if}
         </Column>
         <Column header="Inviato">
@@ -164,28 +164,43 @@ const colors = [
           
         </Column>
     </Table>
-    {#if uscitienoninviati > 0}
-    <ListGroup style="margin-bottom:5px">
-      <ListGroupItem color="danger">
-            {#if uscitienoninviati != 1}
-            <p>Ci sono {uscitienoninviati} bambini, il cui solito orario d'uscita è stato superato, probabilmente hanno lasciato l'aula e non è stato inviato il report.</p>
-            {:else}
-            <p>C'è {uscitienoninviati} bambino, il cui solito orario d'uscita è stato superato, probabilmente hanno lasciato l'aula e non è stato inviato il report.</p>
-            {/if}
+    <button style="display:block;margin:auto" class="hd-button" on:click={() => (isOpen = !isOpen)}>
+      Opzioni e statistiche<i class="fa fa-dashboard"></i>
+    </button>
+    <Fade {isOpen}>
+      <Card id="hd-card-2" body>
+        <Row style="margin-bottom:10px">
+          <button id="excel-btn" style="margin:auto;display:block;max-width:160px" class="hd-button">Scarica foglio Excel <i class="fa fa-file-excel" aria-hidden="true"></i></button>
+              </Row>
+        <Row style="margin-bottom:10px">
+    <button id="remove-btn" style="margin:auto;display:block;max-width:160px" class="hd-button">Elimina tutti</button>
+        </Row>
+        {#if uscitienoninviati > 0}
+        <ListGroup style="margin-bottom:5px">
+          <ListGroupItem color="danger">
+                {#if uscitienoninviati != 1}
+                <p>Ci sono {uscitienoninviati} bambini, il cui solito orario d'uscita è stato superato, probabilmente hanno lasciato l'aula e non è stato inviato il report.</p>
+                {:else}
+                <p>C'è {uscitienoninviati} bambino, il cui solito orario d'uscita è stato superato, probabilmente hanno lasciato l'aula e non è stato inviato il report.</p>
+                {/if}
+              </ListGroupItem>
+          
+        </ListGroup>
+        {/if}
+        {#if inviati<users.length}
+        <SezioneStatistica infoO={[inviati,users.length]}/>
+        {:else}
+        <ListGroup style="margin-top:5px">
+          <ListGroupItem color="success">
+                Tutti i report risultano esser stati consegnati correttamente ai rispettivi genitori.
           </ListGroupItem>
+          
+        </ListGroup>
       
-    </ListGroup>
-    {/if}
-    {#if inviati<users.length}
-    <SezioneStatistica infoO={[inviati,users.length]}/>
-    {:else}
-    <ListGroup style="margin-top:5px">
-      <ListGroupItem color="success">
-            Tutti i report risultano esser stati consegnati correttamente ai rispettivi genitori.
-      </ListGroupItem>
-      
-    </ListGroup>
-    {/if}
+        {/if}
+      </Card>
+    </Fade>
+    
 
   </CardBody>
   
@@ -197,11 +212,15 @@ const colors = [
 {/if}
 {/if}
 <svelte:head>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="../specific_page_js/tabellabambinisezione.js"></script>
   <style>
-    #removeButton{
+    #remove-btn{
     border: solid 7px red /* #41403e;*/
 }
-#removeButton:hover{
+#remove-btn:hover{
     box-shadow: 2px 8px 4px -6px rgba(0, 0, 0, 0.3);
     background-color:red;
     color: white;

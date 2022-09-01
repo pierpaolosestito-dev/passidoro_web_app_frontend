@@ -25,7 +25,7 @@ $(document).on('click', '#send-btn', function(){
     else
         Solo_rappresentante = "Si";
 
-    Nome_sezione = "Lupacchiotti";
+    Nome_sezione = $("#sezione-select option:selected").text();
     Oggetto = $("#oggetto").val();
     Messaggio = $("#messaggio").val();
 

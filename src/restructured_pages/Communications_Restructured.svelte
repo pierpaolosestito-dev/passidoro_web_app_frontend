@@ -44,7 +44,7 @@
                 <Input type="textarea" name="text" id="messaggio"/>
             </Row>
             <Row>
-                <Container id="container-btn"><button id="send-btn" class="hd-button">Invia comunicazione</button></Container>
+                <button style="display:block;margin:auto;max-width:180px" id="send-btn" class="hd-button">Invia comunicazione <i class="fa fa-envelope" aria-hidden="true"></i></button>
             </Row>
         </Col>
     </CardBody>

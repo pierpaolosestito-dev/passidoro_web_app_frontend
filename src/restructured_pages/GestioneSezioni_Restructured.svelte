@@ -66,12 +66,13 @@
                 
                 {user.Nome}
               </Column>
+              
               <Column header="EMAIL RAPPRESENTANTE ">
                 <Row>
                 <i contenteditable=false class="icon-pencil-22 "></i><p contenteditable>{user.Email_Rappresentante}</p>
               </Row>
               </Column>
-            
+             
           </Table>
 <!--<Table hover id="mytab">
     <thead>
@@ -103,7 +104,7 @@
       </tr>
     </tbody>
   </Table>-->
-  <button class="hd-button" id="edit-btn">Conferma modifiche</button>
+  <button class="hd-button" id="edit-btn">Conferma modifiche <i class="fa fa-refresh" aria-hidden="true"></i></button>
         <!--<CardSezioneRestructured sezione={"Coccinelle"}/>
         <CardSezioneRestructured sezione={"Lupacchiotti"}/>-->
         

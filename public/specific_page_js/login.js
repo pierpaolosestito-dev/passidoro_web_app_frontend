@@ -1,13 +1,24 @@
 
 
-window.addEventListener("load",function(){
+
+
+
+
+/*window.addEventListener("load",function(){
 	var jQueryScript = document.createElement('script');
   jQueryScript.setAttribute('src','https://unpkg.com/sweetalert/dist/sweetalert.min.js');
   jQueryScript.setAttribute('src','https://cdn.jsdelivr.net/npm/sweetalert2@11');
    
 	document.head.appendChild(jQueryScript);
     
-})
+})*/
+$(document).keypress(
+  function(event){
+    if (event.which == '13') {
+     
+      $("#enter-btn").click();
+    }
+});
 var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
 $(document).on('click', '#enter-btn', function(){ 
     if(!regex.test($('#email').val()) && $('#password').val().length == 0 ){
@@ -33,20 +44,23 @@ $(document).on('click', '#enter-btn', function(){
     }
     console.log($('#password').val());
     console.log("CIao");
+  
     Swal.fire({
       title:"Caricamento in corso",
       imageUrl:"../media_resources/loader_resources/cat_loader.gif",
       didOpen: function(){
 
         login_data = {'email':$('#email').val(),"password":$('#password').val()}
-        axios.post('http://127.0.0.1:8000/auth/login/', login_data)
+        axios.post("http://localhost:8000/auth/login/", login_data)
         .then(response => {
           console.log(response.data);
           console.log(response.data.key);
           console.log(response.data.user.is_superuser);
           
+          
           sessionStorage.setItem('email',$('#email').val()+"");
           sessionStorage.setItem('key',response.data.key);
+          sessionStorage.setItem("tentativiCambio",3);
           
           if(response.data.user.is_superuser){
             sessionStorage.setItem("user","admin");

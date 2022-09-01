@@ -81,7 +81,31 @@ $(document).on('click', '#confirm-btn', function(){
           }
 
           if(err.response.data.old_password!=null){
-            swalAlert(0,"La tua vecchia password è stata inserita in modo errato. Si prega di inserirlo di nuovo.");
+            if(sessionStorage.getItem("tentativiCambio") == 0){
+              axios({
+                method:"post",
+                url:"http://127.0.0.1:8000/auth/logout/",
+                headers:{"Authorization":"Token" + sessionStorage.getItem("key")}
+              }).then(response=>{
+                if(response.data.detail != "Invalid token"){
+                  sessionStorage.removeItem("key");
+                  sessionStorage.removeItem("tentativiCambio");
+                  sessionStorage.removeItem("user");
+                  sessionStorage.removeItem("email");
+                  sessionStorage.removeItem("bloccato");
+                  for(let i=1;i<=6;i++){
+                    sessionStorage.removeItem("sezione"+i);      
+                  }
+                  setTimeout(function(){
+                    location.href="/";
+                 },1200);
+                }
+              })
+            
+              return;
+            }
+            swalAlert(0,"La tua vecchia password è stata inserita in modo errato. Si prega di inserirlo di nuovo.<br> Hai " + (sessionStorage.getItem("tentativiCambio"))+" tentativi");
+            sessionStorage.setItem("tentativiCambio",sessionStorage.getItem("tentativiCambio")-1);
             return;
           }
           }

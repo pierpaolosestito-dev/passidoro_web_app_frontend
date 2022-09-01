@@ -34,7 +34,7 @@ $(document).on('click', '#confirmButton', function(){
           didOpen: function(){
             email_staff=$("#email-staff-input").val();
             aggiornamento = {'id':IDn,'email':email_staff}
-            axios({method:"put",url:"http://127.0.0.1:8000/staff",data:aggiornamento,headers:{"Authorization":"Token " + sessionStorage.getItem("key")}}).then(response=>{
+            axios({method:"put",url:"http://127.0.0.1:8000/singolo_staff",data:aggiornamento,headers:{"Authorization":"Token " + sessionStorage.getItem("key")}}).then(response=>{
                 if(response.data == "OK"){
                     swalAlert(1,"Operazione avvenuta con successo.<br> Se non hai apportato alcuna modifica, i dati rimarranno integri.");
                     setTimeout(function(){
@@ -73,7 +73,7 @@ $(document).on('click', '#removeButton', function(){
         title:"Caricamento in corso",
         imageUrl:"../media_resources/loader_resources/cat_loader.gif",
         didOpen: function(){
-          axios({method:"delete",url:'http://127.0.0.1:8000/staff/'+IDn,headers:{"Authorization":"Token " + sessionStorage.getItem("key")}})
+          axios({method:"delete",url:'http://127.0.0.1:8000/singolo_staff/'+IDn,headers:{"Authorization":"Token " + sessionStorage.getItem("key")}})
           .then(response => {
             console.log(response)
             if(response.data == "Utente eliminato con successo"){

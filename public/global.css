@@ -33,7 +33,9 @@ a:hover {
 	text-decoration: underline;
 	cursor: url("./cursor/mouse_cursor_hover.png"), auto;
 }
-
+ol::marker{
+	content:'';
+}
 a:visited {
 	color: rgb(0,80,160);
 }

@@ -26,9 +26,11 @@ $(document).on('click', '#logout', function(){
                   return;
                 }else{
                   sessionStorage.removeItem("key");
+                  sessionStorage.removeItem("tentativiCambio");
                   sessionStorage.removeItem("user");
                   sessionStorage.removeItem("email");
                   sessionStorage.removeItem("bloccato");
+                 
                   for(let i=1;i<=6;i++){
                     sessionStorage.removeItem("sezione"+i);      
                   }

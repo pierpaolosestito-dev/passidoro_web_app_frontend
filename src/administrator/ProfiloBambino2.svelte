@@ -168,13 +168,13 @@
             </Row>
             {#if sessionStorage.getItem("user") == "admin"}
             <Row>
-                <button class="hd-button" id="removeButton">Elimina bambino</button>
+                <button class="hd-button" id="removeButton">Elimina <i class="fa fa-trash" aria-hidden="true"></i></button>
             </Row>
             <Row id="hiddenRow3">
-                <button class="hd-button" id="editButton">Modifica</button>
+                <button class="hd-button" id="editButton">Modifica <i class="fa fa-refresh" aria-hidden="true"></i></button>
             </Row>
            <Row id="hiddenRow2" style="display:none;">
-            <button class="hd-button" id="confirmButton">Conferma</button>
+            <button class="hd-button" id="confirmButton">Conferma <i class="fa fa-check" aria-hidden="true"></i></button>
            </Row>
            {/if}
         </Col>

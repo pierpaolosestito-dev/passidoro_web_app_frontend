@@ -33,6 +33,7 @@ $(document).on('click', '#invia-email-recupero', function(){
       console.log(response)
       if(response.data == "Risulta esserci un errore"){
         swalAlert(0,"L'operazione non è andata a buon fine");
+        setTimeout(codice,4000);
       }else{
         swalAlert(1,"Email per il recupero password inviata con successo");
         codiceRecuperoPassword = response.data.code_to_sent;
@@ -42,23 +43,16 @@ $(document).on('click', '#invia-email-recupero', function(){
         setTimeout(codice,3000);
         return;
       }
-      /*if(regex3.test(response.data)){
-        swalAlert(1,"Email per il recupero password inviata con successo");
-        match = response.data.match(regex2);
-        console.log(match[1]);
-        codiceRecuperoPassword = match[1];
-        
-      }else{
-        swalAlert(0,"L'operazione non è andata a buon fine.");
-        setTimeout(errore,3000);
-      }*/
+    }).catch(function(err){
+      swalAlertCONN_REF();
+      setTimeout(errore,1200);
     });
     
     counter+=1;
 });
 function errore(){
     $("#spinner").replaceWith
-    ("<div class='error' id='error'>L'email non risulta registrata nel sistema</div><p id='spinner'>La pagina si aggiornerà tra qualche secondo</p>");
+    ("<div class='error' id='error'>ERRORE 404</div><p id='spinner'>La pagina si aggiornerà tra qualche secondo</p>");
     setTimeout(reload,3000);
  
 }
@@ -67,6 +61,9 @@ function reload(){
     location.reload();
 }
 function codice(){
+   /*var today = new Date();
+   orario = today.getHours+":"+today.getMinutes()
+   sessionStorage.setItem("orario",orario);*/ 
     $("#spinner").replaceWith
     ("<input id='codice_input' type='number' placeholder='Inserisci il codice che hai ricevuto'/>");
     $("#hidden-col").fadeIn();
@@ -119,11 +116,12 @@ function codice(){
                 
               }else{
                     if(tentativiPassword == 0){
-                        setTimeout(reload,3000);
+                        setTimeout(reload,1200);
+                        return;
                       }
+                      
+                      swalAlert(0,"Errore! Le password non combaciano. Hai " + tentativiPassword + " TENTATIVI");
                       tentativiPassword-=1;
-                      swalAlert(0,"Errore! Le password non combaciano, HAI ANCORA " + tentativiPassword + " TENTATIVI");
-      
                       
                       
                 }
@@ -135,11 +133,30 @@ function codice(){
           });*/
         }else{
             if(tentativi == 0){
-                setTimeout(reload,3000);
-              }
-              tentativi-=1;
-              swalAlert(0,"Errore! Il codice non sembra combaciare con quello ricevuto, HAI ANCORA " + tentativi + " TENTATIVI");
+                /*orario=sessionStorage.getItem("orario");
+                orarioSplitted = orario.split(":");
+                //Alle 23 e 00 non si può fare
+                if(orarioSplitted[1]+20 > 60){
+                  orarioSplitted[0]=orarioSplitted[0]+1;
+                  orarioSplitted[1] = (orarioSplitted[1]+20) - 60;
+                }
+                if(orarioSplitted[1]+20 == 60){
+                  orarioSplitted[0] = orarioSplitted[0]+1
+                  orarioSplitted[1]="00";
+                }
+                nuovoOrario = orarioSplitted[0]+":"+orarioSplitted[1];
+                sessionStorage.setItem("orario",nuovoOrario);*/
+                today = new Date();
+                today.setMinutes(today.getMinutes()+20);
+                console.log(today.getTime());
+                sessionStorage.setItem("orario",today.getTime());
               
+                setTimeout(reload,1200);
+                return;
+              }
+              
+              swalAlert(0,"Errore! Il codice non sembra combaciare con quello ricevuto. Hai " + tentativi + " TENTATIVI");
+              tentativi-=1;
               
               
         }

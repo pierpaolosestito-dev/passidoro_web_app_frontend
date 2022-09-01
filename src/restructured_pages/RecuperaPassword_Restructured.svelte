@@ -1,6 +1,33 @@
 <script lang="ts">
     import Navbar_Restructured from '../restructured_components/Navbar_Restructured.svelte';
     import {Spinner,Container,Card,CardBody,CardHeader,CardTitle,CardSubtitle,Alert,Col,Row,Image,Badge,Button,InputGroup,InputGroupText,Input} from 'sveltestrap';
+    import { onMount,beforeUpdate} from 'svelte';
+    onMount(async () => {
+        var today = new Date();
+        if(sessionStorage.getItem("orario")!=null)
+        if(today.getTime() < sessionStorage.getItem("orario")){
+            if(document.getElementById("invia-email-recupero")!=null && document.getElementById("email")!=null){
+            document.getElementById("invia-email-recupero").setAttribute("disabled"," ");
+            document.getElementById("email").setAttribute("disabled"," ");
+            document.getElementById("alert-row").style.display = "block";
+            document.getElementById("warning-text").innerText="Sei stato bloccato per i troppi tentativi falliti. Riprova più tardi.";
+            
+            }
+        }
+    if(today.getHours() == 0 || today.getHours()==23){
+        console.log(document.getElementById("invia-email-recupero"))
+            if(document.getElementById("invia-email-recupero")!=null && document.getElementById("email")!=null){
+            document.getElementById("invia-email-recupero").setAttribute("disabled"," ");
+            document.getElementById("email").setAttribute("disabled"," ");
+            document.getElementById("alert-row").style.display = "block";
+            
+            }
+        }
+
+    })
+    
+
+    
     
 </script>
 
@@ -13,9 +40,12 @@
     <CardBody>
       
             <Col>
+                <Row id="alert-row" style="display:none;">
+                    <Alert color="warning" id="warning-text">Non puoi effettuare questa operazione tra 00 e l'01:00 di notte.</Alert>
+                </Row>
                 <Row id="row">
                     <InputGroup>
-                        <InputGroupText><i class="fa-solid fa-envelope"></i></InputGroupText>
+                        <InputGroupText style="max-height:38px;"><i class="fa-solid fa-envelope"></i></InputGroupText>
                         <Input id="email" type="email" placeholder="Inserisci qua la tua email" required />
                       </InputGroup>
                 </Row>

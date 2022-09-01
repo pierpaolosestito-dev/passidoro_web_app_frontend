@@ -56,6 +56,8 @@ import { identity } from 'svelte/internal';
    if(data2.data[0].Inviato){
     document.getElementById("invia-report").disabled = true;
     document.getElementById("invia-report").innerText = "REPORT GIA INVIATO";
+    document.getElementById("conferma-modifiche").style.display = "none";
+    //document.getElementById("conferma-modifiche").innerText = "REPORT GIA INVIATO";
    }}
    console.log("RESULT",result);
  }));
@@ -150,8 +152,8 @@ import { identity } from 'svelte/internal';
                     <Input type="textarea" name="text" id="promemoria"/>
                 </Row>
                 <Row>
-                    <button class="hd-button" id="conferma-modifiche">Conferma modifiche senza inviare</button>
-                    <button class="hd-button" id="invia-report">Invia report ai genitori</button>
+                    <button class="hd-button" id="conferma-modifiche">Conferma modifiche senza inviare <i class="fa fa-refresh" aria-hidden="true"></i></button>
+                    <button class="hd-button" id="invia-report">Invia report ai genitori <i class="fa fa-envelope" aria-hidden="true"></i></button>
                 </Row>
             </Col>
         </Alert>

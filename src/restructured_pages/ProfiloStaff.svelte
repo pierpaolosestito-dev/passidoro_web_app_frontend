@@ -27,7 +27,7 @@
   onMount(async () => {
     try {
         
-            const res = await axios({method:'get',url:'http://127.0.0.1:8000/staff',headers:{'CUSTOM-OPTION':IDn,'Authorization':'Token ' + sessionStorage.getItem("key")}});
+            const res = await axios({method:'get',url:'http://127.0.0.1:8000/singolo_staff',headers:{'CUSTOM-OPTION':IDn,'Authorization':'Token ' + sessionStorage.getItem("key")}});
             console.log(res.data);
             if(res.data != "Il profilo non esiste"){
                 document.getElementById('nome-staff').innerText = res.data.first_name;
@@ -70,14 +70,14 @@
                 <input type="email" id="email-staff-input" placeholder="INSERISCI NUOVA EMAIL"/>
             </Row>
             <Row>
-                <button class="hd-button" id="removeButton">Elimina</button>
+                <button class="hd-button" id="removeButton">Elimina <i class="fa fa-trash" aria-hidden="true"></i></button>
             </Row>
             <Row id="hiddenRow3">
-                <button class="hd-button" id="editButton">Modifica</button>
+                <button class="hd-button" id="editButton">Modifica <i class="fa fa-refresh" aria-hidden="true"></i></button>
                
             </Row>
            <Row id="hiddenRow2" style="display:none;">
-            <button class="hd-button" id="confirmButton">Conferma</button>
+            <button class="hd-button" id="confirmButton">Conferma <i class="fa fa-check" aria-hidden="true"></i></button>
            </Row>
         </Col>
     

@@ -5,21 +5,35 @@ window.addEventListener("load",function(){
 	document.head.appendChild(jQueryScript);
     
 })
+let modificheReport=false;
 $("#r1").change(function(){
     $('#info-aggiuntive').show();
-    
+    modificheReport = true;
 });
 
 $("#r2").change(function(){
     $('#info-aggiuntive').hide();
-    
+    modificheReport = true;
 });
 $("#r3").change(function(){
+    modificheReport = true;
     ha_dormito=true;
 });
 $("#r4").change(function(){
+    modificheReport = true;
     ha_dormito=false;
 });
+
+$("#pasto").on("input", function() {
+    modificheReport = true;
+});
+$("#info-aggiuntive-text").on("input", function() {
+    modificheReport = true;
+});
+$("#promemoria").on("input", function() {
+    modificheReport = true;
+});
+
 let parameters = new URLSearchParams(window.location.search);
   console.log(parameters.get("ID"));
     let IDn= parameters.get("ID");
@@ -69,7 +83,9 @@ $(document).on('click', '#conferma-modifiche', function(){
               console.log(response)
                 if(response.data == "Aggiornato con successo"){
                     swalAlert(1,"Operazione avvenuta con successo. <br> Se non hai fatto alcuna modifica, i dati rimarranno integri per come sono.");
-                      return;
+                    modificheReport=false;  
+                    return;
+                      
                 }else{
                     swalAlert(0,"L'operazione non è andata a buon fine.");
                 }
@@ -79,7 +95,10 @@ $(document).on('click', '#conferma-modifiche', function(){
 });
 
 $(document).on('click', '#invia-report', function(){ 
-
+    if(modificheReport){
+        swalAlert(0,"Devi prima confermare le modifiche che hai fatto. <br> Se hai apportato modifiche involontariamente, aggiorna la pagina e successivamente invia il report.");
+        return;
+    }
     dati = {"ID":IDn};
     Swal.fire({
         title:"Caricamento in corso",

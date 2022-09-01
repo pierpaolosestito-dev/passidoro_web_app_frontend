@@ -1,37 +1,22 @@
 <script>
-    
-    import Login_Restructured from '../restructured_pages/Login_Restructured.svelte';
     import RecuperaPasswordRestructured from '../restructured_pages/RecuperaPassword_Restructured.svelte';
-    import WaveSpinner_Restructured from '../restructured_components/WaveSpinner_Restructured.svelte';
+  
     import Impostazioni_Restructured from '../restructured_pages/Impostazioni_Restructured.svelte';
     import Dashboard_Restructured from '../restructured_pages/Dashboard_Restructured.svelte';
-    import ReportForm_Restructured from '../restructured_pages/ReportForm_Restructured.svelte';
+
     import GestioneSezioniRestructured from '../restructured_pages/GestioneSezioni_Restructured.svelte';
     import Communications_Restructured from '../restructured_pages/Communications_Restructured.svelte';
-    import ParentsHome from '../parents/ParentsHome.svelte';
-    import Dashboard from '../generally_components/Dashboard.svelte';
-
-    import RegistraBambino from '../administrator/RegistraBambino.svelte';
-    import TabRegistraBambino from '../restructured_components/restructured_tab/TabRegistraBambino.svelte';
-    import GestioneSezione from '../administrator/GestioneSezione.svelte';
     import GestioneBambini from '../administrator/GestioneBambini.svelte';
-    import Prova from '../administrator/administrator_navpages/Prova.svelte';
+    
     import Prova2 from '../administrator/administrator_navpages/Prova2.svelte';
     import ProfiloStaff from '../restructured_pages/ProfiloStaff.svelte';
-    import ProfiloBambino from '../administrator/ProfiloBambino.svelte';
+  
     import ProfiloBambino2 from '../administrator/ProfiloBambino2.svelte';
     import GestioneStaffRestructured from '../restructured_pages/GestioneStaff_Restructured.svelte';
 
-   import Testing from '../restructured_pages/restructured_pages_params_by_url/Testing.svelte';
-   import Card_Eg from '../da_cancellare_screen_tesi/Card_Eg.svelte';
     export let url = '';
     import { Router, Route } from 'svelte-routing';
-import WaveSpinnerRestructured from '../restructured_components/WaveSpinner_Restructured.svelte';
-import CardEg from '../da_cancellare_screen_tesi/Card_Eg.svelte';
-import { get } from 'svelte/store';
-import CommunicationsRestructured from '../restructured_pages/Communications_Restructured.svelte';
-import { get_all_dirty_from_scope } from 'svelte/internal';
-import DashboardRestructured from '../restructured_pages/Dashboard_Restructured.svelte';
+
 import LoginRestructured from '../restructured_pages/Login_Restructured.svelte';
 import ReportFormRestructured from '../restructured_pages/ReportForm_Restructured.svelte';
 import ErrorPage from '../restructured_components/404ErrorPage.svelte';

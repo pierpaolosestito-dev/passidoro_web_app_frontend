@@ -1,6 +1,9 @@
 <script lang="ts">
-    import {Spinner,Card,CardHeader,CardTitle,CardBody,ListGroup,ListGroupItem,Row,Col,Image} from 'sveltestrap'
-    import axios from 'axios';
+    import {Container,Spinner,Card,CardHeader,CardTitle,CardBody,ListGroup,ListGroupItem,Row,Col,Image} from 'sveltestrap'
+    import ListaStaff from '../ListaStaff.svelte';
+    import Hidden from '../../administrator/administrator_navpages/nested_components/Hidden.svelte';
+    let child;
+    /*import axios from 'axios';
     import {onMount} from 'svelte';
     import ErrorCard from '../404Card.svelte';
     let result_superuser = [];
@@ -8,9 +11,17 @@
     let superaticatch = false;
     let error404_1 = false;
     let error404_2 = false;
+    let mountedIsCalled = false;
+    setTimeout(() => {
+            
+        }, 5);
     onMount(async () => {
+        mountedIsCalled=true;
+        
         try {
             console.log("I'm trying")
+        
+        
         axios.all([ 
             
             axios({method:'get',url:'http://127.0.0.1:8000/staff',headers:{'CUSTOM-OPTION':true,'Authorization':'Token ' + sessionStorage.getItem("key")}}).catch(function(err){
@@ -34,13 +45,15 @@
    console.log(result_user.length);
    console.log(superaticatch);
    console.log(error404_1);
+   console.log("mountedisCalledinMount",mountedIsCalled)
  }));
         } catch (e) {
             console.log("errore",e);
             
         }
     });
-
+    
+    console.log("mountedisCalled",mountedIsCalled)
     const colors = [
     'primary',
     'secondary',
@@ -50,6 +63,7 @@
     'info',
     'dark'
   ];
+  */
 </script>
 <Card class="mb-3" id="hd-card">
     <CardHeader id="hd-card-header">
@@ -57,7 +71,14 @@
 
     </CardHeader>
     <CardBody>
-    {#if result_superuser.length==0 && !error404_1 && !superaticatch}
+        <Row style="margin:auto;display:block;margin-right:30px;margin-left:10px">
+        <Hidden style="margin-left:10" name={"Amministratori"} bind:this={child} on:show={e => child.shown = e.detail}>
+            <Card id="hd-card-2">
+            <ListaStaff type={true}/>
+        </Card>
+          </Hidden>
+        </Row>
+    <!--{#if result_superuser.length==0 && !error404_1 && !superaticatch}
     <Spinner style="display:block;margin-left:auto;margin-right:auto;vertical-align:middle;margin-top:20px" color="{colors[Math.floor(Math.random()*colors.length)]}" type="grow" />
     {:else if error404_1}
     <ErrorCard/>
@@ -69,7 +90,7 @@
     <ListGroup>
     <ListGroupItem color="info">
         <Row>
-            <!--Sistemare i link-->
+            
             <Image id="badge" src="../media_resources/staff_resources/staff_admin.png"/>
             
             <Col>
@@ -80,16 +101,28 @@
             </Col>
             
             <Col style="margin-left:5px">
-                <a href="/admin/profiloStaff?ID={su.id}"> <button class="hd-button">PROFILO</button></a>
+                {#if su.email != sessionStorage.getItem("email")}
+                <a href="/admin/profiloStaff?ID={su.id}"> <button class="hd-button">PROFILO <i class="fa fa-user" aria-hidden="true"></i></button></a>
+                {:else}
+                <a href="/admin/profiloStaff?ID={su.id}" disabled> <button class="hd-button">PROFILO <i class="fa fa-user" aria-hidden="true"></i></button></a>
+                {/if}
             </Col>
         </Row>
     </ListGroupItem>
     </ListGroup>
     {/each}
 {/if}
-{/if}
+{/if}-->
     <hr class="rounded">
-   {#if result_user.length==0 && !error404_1 && !superaticatch}
+    <Row style="margin:auto;display:block;margin-right:30px;margin-left:10px">
+
+    <Hidden name={"Maestre"} bind:this={child} on:show={e => child.shown = e.detail}>
+        <Card id="hd-card-2">
+        <ListaStaff type={false}/>
+        </Card>
+      </Hidden>
+    </Row>
+   <!--{#if result_user.length==0 && !error404_1 && !superaticatch}
     <Spinner style="display:block;margin-left:auto;margin-right:auto;vertical-align:middle;margin-top:20px" color="{colors[Math.floor(Math.random()*colors.length)]}" type="grow" />
     {:else if error404_1}
     <ErrorCard/>
@@ -101,7 +134,7 @@
     <ListGroup>
     <ListGroupItem color="warning">
         <Row>
-            <!--Sistemare i link-->
+            
             <Image id="badge" src="../media_resources/staff_resources/staff_teacher.PNG"/>
             
             <Col>
@@ -112,14 +145,18 @@
             </Col>
             
             <Col style="margin-left:5px">
-                <a href="/admin/profiloStaff?ID={u.id}"> <button class="hd-button">PROFILO</button></a>
+                {#if u.email != sessionStorage.getItem("email")}
+                <a href="/admin/profiloStaff?ID={u.id}"> <button class="hd-button">PROFILO <i class="fa fa-user" aria-hidden="true"></i></button></a>
+                {:else}
+                <a href="/admin/profiloStaff?ID={u.id}" disabled> <button class="hd-button" disabled>PROFILO <i class="fa fa-user" aria-hidden="true"></i></button></a>
+                {/if}
             </Col>
         </Row>
     </ListGroupItem>
     </ListGroup>
     {/each}
     {/if}
-    {/if}
+    {/if}-->
     </CardBody>
 </Card>
 

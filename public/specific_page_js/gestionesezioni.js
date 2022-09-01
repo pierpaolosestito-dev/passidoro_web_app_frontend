@@ -15,7 +15,7 @@ $(document).on('click', '#edit-btn', function(){
     const table = document.getElementById("mytab");  
 
     
-    size = 4;
+    size = 12;
     arraydatioff = []
    // let first_iteration=false;
     for(let i=0;(i+i+1)<size;i++){
